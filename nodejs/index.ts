@@ -25,6 +25,7 @@ import { Queue, Worker } from 'bullmq';
         host: REDIS_HOST,
         port: REDIS_PORT,
         connectTimeout: REDIS_CONNECT_TIMEOUT,
+        password: REDIS_PASSWORD ? REDIS_PASSWORD : undefined,
         tls: tls
       }
     });

@@ -37,16 +37,16 @@ resource "aws_ecs_task_definition" "main" {
         { "name" : "REDIS_PASSWORD", "value" : "${var.redis_auth_token}" },
         { "name" : "REDIS_TLS", "value" : "1" },
       ],
-      # "healthCheck" : {
-      #   "retries" : 3,
-      #   "command" : [
-      #     "CMD-SHELL",
-      #     "curl -f http://localhost:80/health-check?token=${var.alb_token} || exit 1",
-      #   ],
-      #   "timeout" : 5,
-      #   "interval" : 10,
-      #   "startPeriod" : 10,
-      # },
+      "healthCheck" : {
+        "retries" : 3,
+        "command" : [
+          "CMD-SHELL",
+          "curl -f http://localhost:80/health || exit 1",
+        ],
+        "timeout" : 5,
+        "interval" : 10,
+        "startPeriod" : 10,
+      },
       "essential" : true,
       "portMappings" : [
         {
