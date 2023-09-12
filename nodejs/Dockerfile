@@ -4,4 +4,4 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 80
-CMD [ "node", "dist/server.js" ]
+CMD [ "node", "dist/index.js" ]

@@ -19,7 +19,7 @@ variable "primary_redis_endpoint" {
 }
 
 variable "redis_port" {
-  type = number
+  type = string
 }
 
 variable "redis_auth_token" {
