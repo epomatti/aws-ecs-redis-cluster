@@ -2,7 +2,7 @@
 
 ElastiCache Redis deployment being accessed by an application running on ECS Fargate:
 
-<img src=".assets/redis.png" width=600 />
+<img src=".assets/redis.png" width=700 />
 
 To apply the infrastructure locally, first create a `.auto.tfvars` file:
 
