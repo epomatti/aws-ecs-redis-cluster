@@ -5,6 +5,10 @@ import { Queue, Worker } from 'bullmq';
 
 (async () => {
   try {
+    process.on("uncaughtException", function (err) {
+      console.error(err);
+    });
+
     require('dotenv').config();
 
     const PORT = process.env.PORT;
@@ -20,7 +24,7 @@ import { Queue, Worker } from 'bullmq';
     const tls = REDIS_TLS === "1" ? {} : undefined;
     const queueName = "test-queue"
 
-    const myQueue = new Queue(queueName, {
+    const queue = new Queue(queueName, {
       connection: {
         host: REDIS_HOST,
         port: REDIS_PORT,
@@ -30,22 +34,31 @@ import { Queue, Worker } from 'bullmq';
       }
     });
 
-    const myWorker = new Worker(queueName, async (job) => { console.log(job.data) }, {
+    queue.on("error", (err) => {
+      console.error(err);
+    })
+
+    const worker = new Worker(queueName, async (job) => { console.log(job.data) }, {
       connection: {
         host: REDIS_HOST,
         port: REDIS_PORT,
         connectTimeout: REDIS_CONNECT_TIMEOUT,
-        password: REDIS_PASSWORD,
+        password: REDIS_PASSWORD ? REDIS_PASSWORD : undefined,
         tls: tls
       }
     });
+
+    worker.on("error", (err) => {
+      console.error(err);
+    })
+
 
     app.get('/', (req, res) => {
       res.send('OK')
     })
 
     app.post('/enqueue', async (req, res) => {
-      await myQueue.add('myJobName', { foo: 'bar' });
+      await queue.add('myJobName', { foo: 'bar' });
       res.send('OK')
     })
 
