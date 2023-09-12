@@ -62,7 +62,9 @@ import { Queue, Worker } from 'bullmq';
     })
 
     app.post('/enqueue', async (req, res) => {
+      console.log("Adding to Redis queue...")
       await queue.add('myJobName', { foo: 'bar' });
+      console.log("Adding to Redis queue: OK")
       res.send('OK')
     })
 
