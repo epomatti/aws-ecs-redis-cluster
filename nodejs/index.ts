@@ -9,6 +9,10 @@ import { Queue, Worker } from 'bullmq';
       console.error(err);
     });
 
+    process.on("unhandledRejection", (reason, promise) => {
+      console.error(reason);
+    });
+
     require('dotenv').config();
 
     const PORT = process.env.PORT;
