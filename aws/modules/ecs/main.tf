@@ -31,7 +31,11 @@ resource "aws_ecs_task_definition" "main" {
       "image" : "${var.ecr_repository_url}:latest",
       "environment" : [
         { "name" : "PORT", "value" : "80" },
-        { "name" : "REDIS_CLUSTER_ENDPOINT_URI", "value" : "${var.redis_primary_redis_endpoint_uri}" },
+        { "name" : "REDIS_HOST", "value" : "${var.primary_redis_endpoint}" },
+        { "name" : "REDIS_PORT", "value" : "${var.redis_port}" },
+        { "name" : "REDIS_CONNECT_TIMEOUT", "value" : "5000" },
+        { "name" : "REDIS_PASSWORD", "value" : "${var.redis_auth_token}" },
+        { "name" : "REDIS_TLS", "value" : "1" },
       ],
       # "healthCheck" : {
       #   "retries" : 3,

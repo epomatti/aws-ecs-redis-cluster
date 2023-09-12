@@ -7,6 +7,7 @@ import { Queue, Worker } from 'bullmq';
   try {
     require('dotenv').config();
 
+    const PORT = process.env.PORT;
     const REDIS_HOST = process.env.REDIS_HOST;
     const REDIS_PORT = Number(process.env.REDIS_PORT);
     const REDIS_CONNECT_TIMEOUT = Number(process.env.REDIS_CONNECT_TIMEOUT);
@@ -14,7 +15,7 @@ import { Queue, Worker } from 'bullmq';
     const REDIS_TLS = process.env.REDIS_TLS;
 
     const app = express();
-    const port = 3000;
+    const port = PORT ? Number(PORT) : 3000;
 
     const tls = REDIS_TLS === "1" ? {} : undefined;
     const queueName = "test-queue"

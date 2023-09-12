@@ -14,12 +14,16 @@ variable "subnets" {
   type = list(string)
 }
 
-variable "redis_primary_redis_endpoint_uri" {
+variable "primary_redis_endpoint" {
   type = string
 }
 
 variable "redis_port" {
   type = number
+}
+
+variable "redis_auth_token" {
+  type = string
 }
 
 variable "target_group_arn" {
