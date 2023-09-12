@@ -2,6 +2,10 @@ variable "workload" {
   type = string
 }
 
+variable "aws_region" {
+  type = string
+}
+
 variable "vpc_id" {
   type = string
 }
@@ -10,7 +14,7 @@ variable "subnets" {
   type = list(string)
 }
 
-variable "redis_cluster_port" {
+variable "redis_primary_redis_endpoint_uri" {
   type = number
 }
 
@@ -26,7 +30,7 @@ variable "task_memory" {
   type = number
 }
 
-variable "repository_url" {
+variable "ecr_repository_url" {
   type = string
 }
 

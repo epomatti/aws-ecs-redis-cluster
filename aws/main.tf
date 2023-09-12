@@ -48,3 +48,7 @@ module "iam" {
   workload = local.workload
 }
 
+module "ecr" {
+  source   = "./modules/ecr"
+  workload = local.workload
+}

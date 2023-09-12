@@ -1,3 +1,7 @@
+locals {
+  app_name = "app-${var.workload}"
+}
+
 resource "aws_ecs_cluster" "main" {
   name = "cluster-${var.workload}"
   setting {
@@ -11,12 +15,8 @@ resource "aws_ecs_cluster_capacity_providers" "fargate" {
   capacity_providers = ["FARGATE"]
 }
 
-locals {
-  redis_protocol_prefix = "rediss://"
-}
-
 resource "aws_ecs_task_definition" "main" {
-  family             = "web3app-server-${var.stack}"
+  family             = "ecs-task-${var.workload}"
   network_mode       = "awsvpc"
   cpu                = var.task_cpu
   memory             = var.task_memory
@@ -27,32 +27,11 @@ resource "aws_ecs_task_definition" "main" {
 
   container_definitions = jsonencode([
     {
-      "name" : "xray-daemon",
-      "image" : "public.ecr.aws/xray/aws-xray-daemon:latest",
-      "environment" : [
-        { "name" : "AWS_REGION", "value" : "${var.aws_region}" },
-      ],
-      "cpu" : 32,
-      "memoryReservation" : 256,
-      # "healthCheck" : {
-      #   "command" : [
-      #     "CMD-SHELL",
-      #     "netstat -aun | grep 2000 > /dev/null; if [ 0 != $? ]; then exit 1; fi;",
-      #   ],
-      # },
-      "portMappings" : [
-        {
-          "containerPort" : 2000,
-          "protocol" : "udp"
-        }
-      ]
-    },
-    {
-      "name" : "web3app-server",
-      "image" : "${var.ecr_web3app_server_repository_url}:${var.ecr_web3app_server_image_tag}",
+      "name" : "${local.app_name}",
+      "image" : "${var.ecr_repository_url}:latest",
       "environment" : [
         { "name" : "PORT", "value" : "80" },
-        { "name" : "SINGLE_PROJECT_PRODUCT_ID", "value" : "${var.env__single_project_product_id}" },
+        { "name" : "REDIS_CLUSTER_ENDPOINT_URI", "value" : "${var.redis_primary_redis_endpoint_uri}" },
       ],
       # "healthCheck" : {
       #   "retries" : 3,
@@ -76,30 +55,28 @@ resource "aws_ecs_task_definition" "main" {
         "logDriver" : "awslogs",
         "options" : {
           "awslogs-region" : "${var.aws_region}",
-          "awslogs-group" : "${aws_cloudwatch_log_group.web3app_server.name}",
-          "awslogs-stream-prefix" : "web3app-server",
+          "awslogs-group" : "${aws_cloudwatch_log_group.ecs.name}",
+          "awslogs-stream-prefix" : "${local.app_name}",
         }
       }
     }
   ])
 }
 
-resource "aws_cloudwatch_log_group" "web3app_server" {
-  name              = "web3app-server-${var.stack}"
+resource "aws_cloudwatch_log_group" "ecs" {
+  name              = "ecs-${var.workload}"
   retention_in_days = 365
 }
 
-resource "aws_ecs_service" "web3app_server" {
-  #checkov:skip=CKV_AWS_333:To save NAT gateway costs. Will control via Service Group
-  name                               = "web3app-server-service-${var.stack}"
+resource "aws_ecs_service" "main" {
+  name                               = "ecs-service-${var.workload}"
   cluster                            = aws_ecs_cluster.main.id
-  task_definition                    = aws_ecs_task_definition.web3app_server.arn
+  task_definition                    = aws_ecs_task_definition.main.arn
   scheduling_strategy                = "REPLICA"
   desired_count                      = 1
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
 
-  # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-capacity-providers.html
   capacity_provider_strategy {
     base              = 0
     capacity_provider = "FARGATE"
@@ -114,7 +91,7 @@ resource "aws_ecs_service" "web3app_server" {
 
   load_balancer {
     target_group_arn = var.target_group_arn
-    container_name   = "web3app-server"
+    container_name   = local.app_name
     container_port   = 80
   }
 
@@ -125,7 +102,6 @@ resource "aws_ecs_service" "web3app_server" {
 
 
 ### Network ###
-
 data "aws_vpc" "selected" {
   id = var.vpc_id
 }
