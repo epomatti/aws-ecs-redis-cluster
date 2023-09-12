@@ -4,6 +4,8 @@ ElastiCache Redis deployment being accessed by an application running on ECS Far
 
 <img src=".assets/redis.png" width=800 />
 
+## Running on AWS
+
 To apply the infrastructure locally, first create a `.auto.tfvars` file:
 
 ```terraform
