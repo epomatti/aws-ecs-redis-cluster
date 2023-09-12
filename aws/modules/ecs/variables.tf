@@ -15,6 +15,10 @@ variable "subnets" {
 }
 
 variable "redis_primary_redis_endpoint_uri" {
+  type = string
+}
+
+variable "redis_port" {
   type = number
 }
 

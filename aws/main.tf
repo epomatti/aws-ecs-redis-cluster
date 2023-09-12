@@ -63,6 +63,7 @@ module "ecs" {
   ecs_task_execution_role_arn      = module.iam.ecs_task_execution_role_arn
   ecs_task_role_arn                = module.iam.ecs_task_role_arn
   redis_primary_redis_endpoint_uri = module.redis.primary_redis_endpoint_uri
+  redis_port                       = module.redis.redis_port
   target_group_arn                 = module.elb.target_group_arn
   task_cpu                         = var.ecs_task_cpu
   task_memory                      = var.ecs_task_memory

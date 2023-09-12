@@ -149,8 +149,8 @@ resource "aws_security_group_rule" "egress_https" {
 resource "aws_security_group_rule" "egress_redis" {
   description       = "Allows REDIS egress"
   type              = "egress"
-  from_port         = var.redis_cluster_port
-  to_port           = var.redis_cluster_port
+  from_port         = var.redis_port
+  to_port           = var.redis_port
   protocol          = "tcp"
   cidr_blocks       = [data.aws_vpc.selected.cidr_block]
   ipv6_cidr_blocks  = []
