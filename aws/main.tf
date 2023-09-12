@@ -35,3 +35,10 @@ module "redis" {
   vpc_id             = module.vpc.vpc_id
   auth_token         = var.redis_auth_token
 }
+
+module "elb" {
+  source   = "./modules/elb"
+  workload = local.workload
+  subnets  = module.vpc.data_subnets
+  vpc_id   = module.vpc.vpc_id
+}
