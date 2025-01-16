@@ -65,6 +65,23 @@ curl localhost:3000/privatekey
 
 In order to test this, SSM into the EC2 instance.
 
+```sh
+aws ssm start-session --target instance-id
+```
+
+Check the identity:
+
+```sh
+aws sts get-caller-identity
+aws configure list-profiles
+```
+
+Perform this operation as the root:
+
+```sh
+sudo su -
+```
+
 Generate an RSA key pair:
 
 ```sh
@@ -75,7 +92,19 @@ openssl rsa -in private-key.pem -pubout -out public-key.pem
 Some services my prefer to use DER format encoding:
 
 ```sh
-openssl rsa -in public-key.pem -outform DER -out public-key.der
+openssl rsa -pubin -inform PEM -in public-key.pem -outform DER -out public-key.der
 ```
 
+First, check the read access to the secret:
 
+```sh
+aws secretsmanager describe-secret --secret-id "supercache/privatekey/xxxxx"
+```
+
+Create the secret:
+
+```sh
+aws secretsmanager put-secret-value \
+  --secret-id "supercache/privatekey/xxxxx" \
+  --secret-string file://private-key.pem
+```

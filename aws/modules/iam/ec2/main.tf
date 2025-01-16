@@ -35,8 +35,7 @@ resource "aws_iam_policy" "custom" {
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret",
           "secretsmanager:ListSecretVersionIds",
-          "secretsmanager:CreateSecret",
-          "secretsmanager:UpdateSecret",
+          "secretsmanager:PutSecretValue"
         ]
         Resource = [
           "${var.private_key_secret_arn}",
@@ -49,4 +48,9 @@ resource "aws_iam_policy" "custom" {
 resource "aws_iam_role_policy_attachment" "ssm-managed-instance-core" {
   role       = aws_iam_role.default.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "custom" {
+  role       = aws_iam_role.default.name
+  policy_arn = aws_iam_policy.custom.arn
 }
