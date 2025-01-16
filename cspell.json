@@ -6,6 +6,7 @@
     "words": [
         "awslogs",
         "awsvpc",
+        "bullmq",
         "Fargate",
         "supercache"
     ],

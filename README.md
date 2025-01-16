@@ -39,11 +39,7 @@ docker run -d --name redis-local -p 6379:6379 redis
 In the application directory, create the `.env` file for local development:
 
 ```sh
-PORT="3000"
-REDIS_HOST="localhost"
-REDIS_PORT="6379"
-REDIS_CONNECT_TIMEOUT="5000"
-REDIS_TLS="0"
+cp template.env .env
 ```
 
 Run the application:
@@ -57,4 +53,10 @@ Send a test message to the Redis queue:
 
 ```sh
 curl -X POST localhost/enqueue
+```
+
+To test the private key from Secrets Manager:
+
+```sh
+curl localhost:3000/privatekey
 ```

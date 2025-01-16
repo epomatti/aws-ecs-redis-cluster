@@ -21,6 +21,7 @@ import { Queue, Worker } from 'bullmq';
     const REDIS_CONNECT_TIMEOUT = Number(process.env.REDIS_CONNECT_TIMEOUT);
     const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
     const REDIS_TLS = process.env.REDIS_TLS;
+    const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
     const app = express();
     const port = PORT ? Number(PORT) : 3000;
@@ -59,6 +60,10 @@ import { Queue, Worker } from 'bullmq';
 
     app.get('/', (req, res) => {
       res.send('OK')
+    })
+
+    app.get('/privatekey', (req, res) => {
+      res.send(PRIVATE_KEY)
     })
 
     app.post('/enqueue', async (req, res) => {
