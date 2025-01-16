@@ -40,7 +40,3 @@ variable "ec2_admin_ami" {
 variable "ec2_admin_instance_type" {
   type = string
 }
-
-variable "ec2_admin_user_data" {
-  type = string
-}

@@ -10,6 +10,9 @@
         "bullmq",
         "Fargate",
         "noninteractive",
+        "outform",
+        "pubin",
+        "pubout",
         "supercache"
     ],
     "ignoreWords": [],

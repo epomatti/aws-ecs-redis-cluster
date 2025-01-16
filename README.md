@@ -60,3 +60,22 @@ To test the private key from Secrets Manager:
 ```sh
 curl localhost:3000/privatekey
 ```
+
+## Secrets Manager
+
+In order to test this, SSM into the EC2 instance.
+
+Generate an RSA key pair:
+
+```sh
+openssl genrsa -out private-key.pem 2048
+openssl rsa -in private-key.pem -pubout -out public-key.pem
+```
+
+Some services my prefer to use DER format encoding:
+
+```sh
+openssl rsa -in public-key.pem -outform DER -out public-key.der
+```
+
+

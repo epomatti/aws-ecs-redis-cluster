@@ -22,7 +22,7 @@ resource "aws_iam_role" "default" {
 }
 
 resource "aws_iam_policy" "custom" {
-  name = "${var.workload}-ecs-task-execution-custom"
+  name = "${var.workload}-ec2-admin-custom"
 
   policy = jsonencode({
     Version = "2012-10-17"
