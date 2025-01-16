@@ -7,7 +7,6 @@ resource "random_string" "random" {
 resource "aws_secretsmanager_secret" "private_key" {
   name                    = "${var.workload}/privatekey/${random_string.random.result}"
   recovery_window_in_days = var.recovery_window_in_days
-  kms_key_id              = "aws/secretsmanager"
 }
 
 # resource "aws_secretsmanager_secret_version" "rds_v0" {
