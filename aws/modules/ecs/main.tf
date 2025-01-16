@@ -37,6 +37,9 @@ resource "aws_ecs_task_definition" "main" {
         { "name" : "REDIS_PASSWORD", "value" : "${var.redis_auth_token}" },
         { "name" : "REDIS_TLS", "value" : "1" },
       ],
+      "secrets" : [
+        { name = "PRIVATE_KEY", "valueFrom" : "${var.private_key_secret_arn}" }
+      ],
       "healthCheck" : {
         "retries" : 3,
         "command" : [

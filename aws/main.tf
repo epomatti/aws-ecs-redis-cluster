@@ -76,4 +76,5 @@ module "ecs" {
   target_group_arn            = module.elb.target_group_arn
   task_cpu                    = var.ecs_task_cpu
   task_memory                 = var.ecs_task_memory
+  private_key_secret_arn      = module.secrets.private_key_secret_arn
 }
