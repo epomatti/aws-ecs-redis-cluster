@@ -44,9 +44,16 @@ module "elb" {
   vpc_id   = module.vpc.vpc_id
 }
 
+module "secrets" {
+  source                  = "./modules/sm"
+  workload                = local.workload
+  recovery_window_in_days = var.sm_recovery_window_in_days
+}
+
 module "iam" {
-  source   = "./modules/iam"
-  workload = local.workload
+  source                 = "./modules/iam"
+  workload               = local.workload
+  private_key_secret_arn = module.secrets.private_key_secret_arn
 }
 
 module "ecr" {
@@ -69,10 +76,4 @@ module "ecs" {
   target_group_arn            = module.elb.target_group_arn
   task_cpu                    = var.ecs_task_cpu
   task_memory                 = var.ecs_task_memory
-}
-
-module "secrets" {
-  source                  = "./modules/sm"
-  workload                = local.workload
-  recovery_window_in_days = var.sm_recovery_window_in_days
 }
