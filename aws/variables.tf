@@ -27,3 +27,7 @@ variable "ecs_task_memory" {
   type    = number
   default = 1024
 }
+
+variable "sm_recovery_window_in_days" {
+  type = number
+}

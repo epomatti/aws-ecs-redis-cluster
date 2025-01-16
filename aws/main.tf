@@ -70,3 +70,9 @@ module "ecs" {
   task_cpu                    = var.ecs_task_cpu
   task_memory                 = var.ecs_task_memory
 }
+
+module "secrets" {
+  source                  = "./modules/sm"
+  workload                = local.workload
+  recovery_window_in_days = var.sm_recovery_window_in_days
+}
