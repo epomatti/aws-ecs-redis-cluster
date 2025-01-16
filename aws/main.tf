@@ -50,8 +50,14 @@ module "secrets" {
   recovery_window_in_days = var.sm_recovery_window_in_days
 }
 
-module "iam" {
-  source                 = "./modules/iam"
+module "iam_ecs" {
+  source                 = "./modules/iam/ecs"
+  workload               = local.workload
+  private_key_secret_arn = module.secrets.private_key_secret_arn
+}
+
+module "iam_ec2" {
+  source                 = "./modules/iam/ec2"
   workload               = local.workload
   private_key_secret_arn = module.secrets.private_key_secret_arn
 }
@@ -68,8 +74,8 @@ module "ecs" {
   vpc_id                      = module.vpc.vpc_id
   aws_region                  = var.aws_region
   ecr_repository_url          = module.ecr.repository_url
-  ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
-  ecs_task_role_arn           = module.iam.ecs_task_role_arn
+  ecs_task_execution_role_arn = module.iam_ecs.ecs_task_execution_role_arn
+  ecs_task_role_arn           = module.iam_ecs.ecs_task_role_arn
   primary_redis_endpoint      = module.redis.primary_redis_endpoint
   redis_port                  = module.redis.redis_port
   redis_auth_token            = var.redis_auth_token
@@ -77,4 +83,15 @@ module "ecs" {
   task_cpu                    = var.ecs_task_cpu
   task_memory                 = var.ecs_task_memory
   private_key_secret_arn      = module.secrets.private_key_secret_arn
+}
+
+module "ec2_instance" {
+  source                  = "./modules/ec2"
+  workload                = local.workload
+  vpc_id                  = module.vpc.vpc_id
+  subnet_id               = module.vpc.admin_subnet_id
+  ami                     = var.ec2_admin_ami
+  instance_type           = var.ec2_admin_instance_type
+  az                      = module.vpc.azs[0]
+  iam_instance_profile_id = module.iam_ec2.iam_instance_profile_id
 }

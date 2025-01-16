@@ -4,7 +4,7 @@ resource "aws_route_table" "app1" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = var.interget_gateway_id
+    gateway_id = var.internet_gateway_id
   }
 
   tags = {
@@ -17,7 +17,7 @@ resource "aws_route_table" "app2" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = var.interget_gateway_id
+    gateway_id = var.internet_gateway_id
   }
 
   tags = {
@@ -30,7 +30,7 @@ resource "aws_route_table" "app3" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = var.interget_gateway_id
+    gateway_id = var.internet_gateway_id
   }
 
   tags = {

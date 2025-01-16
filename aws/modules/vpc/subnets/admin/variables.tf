@@ -13,11 +13,3 @@ variable "workload" {
 variable "az1" {
   type = string
 }
-
-variable "az2" {
-  type = string
-}
-
-variable "az3" {
-  type = string
-}

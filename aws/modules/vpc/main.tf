@@ -38,7 +38,7 @@ module "data_subnets" {
 module "application_subnets" {
   source              = "./subnets/application"
   vpc_id              = aws_vpc.main.id
-  interget_gateway_id = aws_internet_gateway.main.id
+  internet_gateway_id = aws_internet_gateway.main.id
   workload            = var.workload
 
   az1 = local.az1
@@ -49,10 +49,19 @@ module "application_subnets" {
 module "balancer_subnets" {
   source              = "./subnets/balancer"
   vpc_id              = aws_vpc.main.id
-  interget_gateway_id = aws_internet_gateway.main.id
+  internet_gateway_id = aws_internet_gateway.main.id
   workload            = var.workload
 
   az1 = local.az1
   az2 = local.az2
   az3 = local.az3
+}
+
+module "admin_subnet" {
+  source              = "./subnets/admin"
+  vpc_id              = aws_vpc.main.id
+  internet_gateway_id = aws_internet_gateway.main.id
+  workload            = var.workload
+
+  az1 = local.az1
 }

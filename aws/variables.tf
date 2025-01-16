@@ -31,3 +31,16 @@ variable "ecs_task_memory" {
 variable "sm_recovery_window_in_days" {
   type = number
 }
+
+### EC2 ###
+variable "ec2_admin_ami" {
+  type = string
+}
+
+variable "ec2_admin_instance_type" {
+  type = string
+}
+
+variable "ec2_admin_user_data" {
+  type = string
+}

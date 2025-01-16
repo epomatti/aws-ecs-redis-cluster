@@ -4,10 +4,12 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "awscliv",
         "awslogs",
         "awsvpc",
         "bullmq",
         "Fargate",
+        "noninteractive",
         "supercache"
     ],
     "ignoreWords": [],
