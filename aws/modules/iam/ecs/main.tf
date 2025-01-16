@@ -86,7 +86,6 @@ resource "aws_iam_role" "ecs_task" {
   })
 }
 
-
 resource "aws_iam_policy" "cw_logs" {
   name = "ECSFargateTaskCloudWatchPolicy-${var.workload}"
 
