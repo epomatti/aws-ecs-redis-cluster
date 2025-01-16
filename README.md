@@ -6,10 +6,10 @@ ElastiCache Redis deployment being accessed by an application running on ECS Far
 
 ## Running on AWS
 
-To apply the infrastructure locally, first create a `.auto.tfvars` file:
+Create the `.auto.tfvars` variables file:
 
-```terraform
-redis_auth_token = "asd90f87abcxz7c80fsda"
+```shell
+cp aws/config/local.auto.tfvars aws/.auto.tfvars
 ```
 
 Apply the resources:
@@ -48,13 +48,13 @@ REDIS_TLS="0"
 
 Run the application:
 
-```
+```sh
 npm install
 npm run dev
 ```
 
 Send a test message to the Redis queue:
 
-```
+```sh
 curl -X POST localhost/enqueue
 ```
