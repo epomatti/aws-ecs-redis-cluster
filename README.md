@@ -52,7 +52,7 @@ npm run dev
 Send a test message to the Redis queue:
 
 ```sh
-curl -X POST localhost/enqueue
+curl -X POST localhost:3000/enqueue
 ```
 
 To test the private key from Secrets Manager:
@@ -101,7 +101,7 @@ First, check the read access to the secret:
 aws secretsmanager describe-secret --secret-id "supercache/privatekey/xxxxx"
 ```
 
-Create the secret:
+Set the secret value:
 
 ```sh
 aws secretsmanager put-secret-value \
