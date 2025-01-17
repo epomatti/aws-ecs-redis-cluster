@@ -66,7 +66,7 @@ curl localhost:3000/privatekey
 In order to test this, SSM into the EC2 instance.
 
 ```sh
-aws ssm start-session --target instance-id
+aws ssm start-session --target "<instance-id>"
 ```
 
 Check the identity:
@@ -85,13 +85,15 @@ sudo su -
 Generate an RSA key pair:
 
 ```sh
-openssl genrsa -out private-key.pem 2048
+# genrsa is deprecated and has been replaced by genpkey https://docs.openssl.org/master/man1/openssl-genpkey/
+openssl genpkey -aes-256-cbc -algorithm RSA -out private-key.pem -pkeyopt rsa_keygen_bits:4096
 openssl rsa -in private-key.pem -pubout -out public-key.pem
 ```
 
 Some services my prefer to use DER format encoding:
 
 ```sh
+openssl rsa -inform PEM -in private-key.pem -outform DER -out private-key.der
 openssl rsa -pubin -inform PEM -in public-key.pem -outform DER -out public-key.der
 ```
 
