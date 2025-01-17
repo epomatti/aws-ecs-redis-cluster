@@ -38,7 +38,7 @@ resource "aws_instance" "default" {
   }
 
   tags = {
-    Name = local.name
+    Name = "${var.workload}-${local.name}"
   }
 }
 
