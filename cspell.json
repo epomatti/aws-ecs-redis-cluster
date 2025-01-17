@@ -9,8 +9,10 @@
         "awsvpc",
         "bullmq",
         "Fargate",
+        "genpkey",
         "noninteractive",
         "outform",
+        "pkeyopt",
         "pubin",
         "pubout",
         "supercache"

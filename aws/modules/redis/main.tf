@@ -7,7 +7,7 @@ resource "aws_elasticache_replication_group" "main" {
   description          = "Redis Cache"
 
   engine               = "redis"
-  engine_version       = "7.0"
+  engine_version       = "7.1"
   parameter_group_name = "default.redis7"
   auth_token           = var.auth_token
 

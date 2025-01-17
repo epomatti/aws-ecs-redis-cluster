@@ -9,5 +9,5 @@ ecs_task_memory = 1024
 
 sm_recovery_window_in_days = 0
 
-ec2_admin_ami           = "ami-036841078a4b68e14"
-ec2_admin_instance_type = "t3.medium"
+ec2_admin_ami           = "ami-0ac5d9e789dbb455a"
+ec2_admin_instance_type = "t4g.small"
