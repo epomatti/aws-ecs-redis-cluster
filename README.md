@@ -69,6 +69,15 @@ In order to test this, SSM into the EC2 instance.
 aws ssm start-session --target "<instance-id>"
 ```
 
+Although the EC2 instance has been given permissions for simplicity in this example, you should use restricted permissions, preferably via [SSO](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html):
+
+> [!TIP]
+> In the EC2 instance, you might have to use the legacy mode
+
+```sh
+aws configure sso
+```
+
 Check the identity:
 
 ```sh
@@ -109,4 +118,10 @@ Set the secret value:
 aws secretsmanager put-secret-value \
   --secret-id "supercache/privatekey/xxxxx" \
   --secret-string file://private-key.pem
+```
+
+Finally, don't forget to sign out of the SSO session and then destroy the resources:
+
+```sh
+aws sso logout
 ```

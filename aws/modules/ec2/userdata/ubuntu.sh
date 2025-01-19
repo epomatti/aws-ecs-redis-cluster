@@ -2,11 +2,14 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-apt update
-apt upgrade -y
+# Update the instance packages
+apt update && apt upgrade -y
 
+# Required dependencies
 apt install -y zip unzip openssl
 
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+# Install the AWS CLI
+architecture="aarch64"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-$architecture.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
