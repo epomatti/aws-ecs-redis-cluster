@@ -39,6 +39,7 @@ resource "aws_iam_policy" "custom" {
         ]
         Resource = [
           "${var.private_key_secret_arn}",
+          "${var.private_key_password_secret_arn}",
         ]
       }
     ]

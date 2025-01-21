@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.83.1"
+      version = "5.84.0"
     }
   }
 }
@@ -51,15 +51,17 @@ module "secrets" {
 }
 
 module "iam_ecs" {
-  source                 = "./modules/iam/ecs"
-  workload               = local.workload
-  private_key_secret_arn = module.secrets.private_key_secret_arn
+  source                          = "./modules/iam/ecs"
+  workload                        = local.workload
+  private_key_secret_arn          = module.secrets.private_key_secret_arn
+  private_key_password_secret_arn = module.secrets.private_key_password_secret_arn
 }
 
 module "iam_ec2" {
-  source                 = "./modules/iam/ec2"
-  workload               = local.workload
-  private_key_secret_arn = module.secrets.private_key_secret_arn
+  source                          = "./modules/iam/ec2"
+  workload                        = local.workload
+  private_key_secret_arn          = module.secrets.private_key_secret_arn
+  private_key_password_secret_arn = module.secrets.private_key_password_secret_arn
 }
 
 module "ecr" {
@@ -68,21 +70,22 @@ module "ecr" {
 }
 
 module "ecs" {
-  source                      = "./modules/ecs"
-  workload                    = local.workload
-  subnets                     = module.vpc.application_subnets
-  vpc_id                      = module.vpc.vpc_id
-  aws_region                  = var.aws_region
-  ecr_repository_url          = module.ecr.repository_url
-  ecs_task_execution_role_arn = module.iam_ecs.ecs_task_execution_role_arn
-  ecs_task_role_arn           = module.iam_ecs.ecs_task_role_arn
-  primary_redis_endpoint      = module.redis.primary_redis_endpoint
-  redis_port                  = module.redis.redis_port
-  redis_auth_token            = var.redis_auth_token
-  target_group_arn            = module.elb.target_group_arn
-  task_cpu                    = var.ecs_task_cpu
-  task_memory                 = var.ecs_task_memory
-  private_key_secret_arn      = module.secrets.private_key_secret_arn
+  source                          = "./modules/ecs"
+  workload                        = local.workload
+  subnets                         = module.vpc.application_subnets
+  vpc_id                          = module.vpc.vpc_id
+  aws_region                      = var.aws_region
+  ecr_repository_url              = module.ecr.repository_url
+  ecs_task_execution_role_arn     = module.iam_ecs.ecs_task_execution_role_arn
+  ecs_task_role_arn               = module.iam_ecs.ecs_task_role_arn
+  primary_redis_endpoint          = module.redis.primary_redis_endpoint
+  redis_port                      = module.redis.redis_port
+  redis_auth_token                = var.redis_auth_token
+  target_group_arn                = module.elb.target_group_arn
+  task_cpu                        = var.ecs_task_cpu
+  task_memory                     = var.ecs_task_memory
+  private_key_secret_arn          = module.secrets.private_key_secret_arn
+  private_key_password_secret_arn = module.secrets.private_key_password_secret_arn
 }
 
 module "ec2_instance" {

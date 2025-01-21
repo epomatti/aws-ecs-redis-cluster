@@ -5,11 +5,13 @@ resource "random_string" "random" {
 }
 
 resource "aws_secretsmanager_secret" "private_key" {
-  name                    = "${var.workload}/privatekey/${random_string.random.result}"
+  name                    = "${var.workload}/private-key/${random_string.random.result}"
   recovery_window_in_days = var.recovery_window_in_days
+  description             = "Private key for the workload"
 }
 
-# resource "aws_secretsmanager_secret_version" "rds_v0" {
-#   secret_id     = aws_secretsmanager_secret.rds.id
-#   secret_string = var.rds_postgresql_secret_string
-# }
+resource "aws_secretsmanager_secret" "private_key_password" {
+  name                    = "${var.workload}/private-key-password/${random_string.random.result}"
+  recovery_window_in_days = var.recovery_window_in_days
+  description             = "Password for the private key"
+}
