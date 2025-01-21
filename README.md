@@ -91,32 +91,52 @@ Perform this operation as the root:
 sudo su -
 ```
 
+Check your access to the private key password secret:
+
+```sh
+aws secretsmanager describe-secret --secret-id "supercache/private-key-password/xxxxx"
+```
+
+Define a secure password:
+
+```sh
+privateKeyPass=$(pwgen -N 1 --secure 15)
+```
+
+Set the secret value with a secure password:
+
+```sh
+aws secretsmanager put-secret-value \
+  --secret-id "supercache/private-key-password/xxxxx" \
+  --secret-string $privateKeyPass
+```
+
 Generate an RSA key pair:
 
 ```sh
 # genrsa is deprecated and has been replaced by genpkey https://docs.openssl.org/master/man1/openssl-genpkey/
-openssl genpkey -aes-256-cbc -algorithm RSA -out private-key.pem -pkeyopt rsa_keygen_bits:4096
-openssl rsa -in private-key.pem -pubout -out public-key.pem
+openssl genpkey -aes-256-cbc -algorithm RSA -out private-key.pem -pass pass:$privateKeyPass -pkeyopt rsa_keygen_bits:4096
+openssl rsa -in private-key.pem -pubout -passin pass:$privateKeyPass -out public-key.pem
 ```
 
-Some services my prefer to use DER format encoding:
+Some services may prefer to use DER format encoding:
 
 ```sh
 openssl rsa -inform PEM -in private-key.pem -outform DER -out private-key.der
 openssl rsa -pubin -inform PEM -in public-key.pem -outform DER -out public-key.der
 ```
 
-First, check the read access to the secret:
+Check the read access to the secret:
 
 ```sh
-aws secretsmanager describe-secret --secret-id "supercache/privatekey/xxxxx"
+aws secretsmanager describe-secret --secret-id "supercache/private-key/xxxxx"
 ```
 
-Set the secret value:
+Set the secret value with the private key material:
 
 ```sh
 aws secretsmanager put-secret-value \
-  --secret-id "supercache/privatekey/xxxxx" \
+  --secret-id "supercache/private-key/xxxxx" \
   --secret-string file://private-key.pem
 ```
 

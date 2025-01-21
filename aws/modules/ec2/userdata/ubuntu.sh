@@ -6,7 +6,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt update && apt upgrade -y
 
 # Required dependencies
-apt install -y zip unzip openssl
+apt install -y zip unzip openssl pwgen
 
 # Install the AWS CLI
 architecture="aarch64"

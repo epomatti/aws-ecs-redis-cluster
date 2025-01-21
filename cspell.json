@@ -12,9 +12,11 @@
         "genpkey",
         "noninteractive",
         "outform",
+        "passin",
         "pkeyopt",
         "pubin",
         "pubout",
+        "pwgen",
         "supercache"
     ],
     "ignoreWords": [],
