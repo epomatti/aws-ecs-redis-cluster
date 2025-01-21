@@ -1,31 +1,45 @@
+variable "workload" {
+  type = string
+}
+
 variable "aws_region" {
-  type    = string
-  default = "us-east-2"
+  type = string
 }
 
-variable "redis_node_type" {
-  type    = string
-  default = "cache.t4g.medium"
+variable "elasticache_engine" {
+  type = string
 }
 
-variable "redis_num_cache_clusters" {
-  type    = number
-  default = 3
+variable "elasticache_engine_version" {
+  type = string
 }
 
-variable "redis_auth_token" {
-  type      = string
-  sensitive = true
+variable "elasticache_parameter_group" {
+  type = string
+}
+
+variable "elasticache_node_type" {
+  type = string
+}
+
+variable "elasticache_num_cache_clusters" {
+  type = number
+}
+
+variable "elasticache_auth_token" {
+  type = string
+}
+
+variable "ecs_deploy_service" {
+  type = bool
 }
 
 variable "ecs_task_cpu" {
-  type    = number
-  default = 512
+  type = number
 }
 
 variable "ecs_task_memory" {
-  type    = number
-  default = 1024
+  type = number
 }
 
 variable "sm_recovery_window_in_days" {

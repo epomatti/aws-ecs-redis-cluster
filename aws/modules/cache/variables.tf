@@ -10,6 +10,18 @@ variable "subnets" {
   type = list(string)
 }
 
+variable "engine" {
+  type = string
+}
+
+variable "engine_version" {
+  type = string
+}
+
+variable "parameter_group" {
+  type = string
+}
+
 variable "node_type" {
   type = string
 }

@@ -8,6 +8,7 @@
         "awslogs",
         "awsvpc",
         "bullmq",
+        "demoapp",
         "Fargate",
         "genpkey",
         "noninteractive",

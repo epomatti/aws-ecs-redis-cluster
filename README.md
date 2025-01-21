@@ -61,7 +61,16 @@ To test the private key from Secrets Manager:
 curl localhost:3000/privatekey
 ```
 
+To build the image locally:
+
+```sh
+docker build -t nodejs-app-local .
+docker run 
+```
+
 ## Secrets Manager
+
+### Connect to the instance
 
 In order to test this, SSM into the EC2 instance.
 
@@ -85,31 +94,45 @@ aws sts get-caller-identity
 aws configure list-profiles
 ```
 
+### Create the private key passphrase
+
 Perform this operation as the root:
 
 ```sh
 sudo su -
 ```
 
-Check your access to the private key password secret:
+Check your access to the private key passphrase secret:
 
 ```sh
 aws secretsmanager describe-secret --secret-id "supercache/private-key-password/xxxxx"
 ```
 
-Define a secure password:
+Define a secure passphrase:
 
 ```sh
-privateKeyPass=$(pwgen -N 1 --secure 15)
+touch passphrase.txt
+chmod 600 passphrase.txt
+pwgen -N 1 --secure 15 >> passphrase.txt
+#privateKeyPass=$(pwgen -N 1 --secure 15)
 ```
 
-Set the secret value with a secure password:
+Set the secret value with a secure passphrase:
 
 ```sh
 aws secretsmanager put-secret-value \
   --secret-id "supercache/private-key-password/xxxxx" \
-  --secret-string $privateKeyPass
+  --secret-string file:passphrase.txt # $privateKeyPass
 ```
+
+Shred and delete the file:
+
+```sh
+shred -zv passphrase.txt
+rm -rf passphrase.txt
+```
+
+### Create the keys
 
 Generate an RSA key pair:
 

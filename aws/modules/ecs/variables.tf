@@ -14,15 +14,15 @@ variable "subnets" {
   type = list(string)
 }
 
-variable "primary_redis_endpoint" {
+variable "primary_elasticache_endpoint" {
   type = string
 }
 
-variable "redis_port" {
+variable "elasticache_port" {
   type = string
 }
 
-variable "redis_auth_token" {
+variable "elasticache_auth_token" {
   type = string
 }
 
@@ -56,4 +56,8 @@ variable "private_key_secret_arn" {
 
 variable "private_key_password_secret_arn" {
   type = string
+}
+
+variable "deploy_service" {
+  type = bool
 }

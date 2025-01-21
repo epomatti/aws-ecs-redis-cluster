@@ -31,10 +31,10 @@ resource "aws_ecs_task_definition" "main" {
       "image" : "${var.ecr_repository_url}:latest",
       "environment" : [
         { "name" : "PORT", "value" : "80" },
-        { "name" : "REDIS_HOST", "value" : "${var.primary_redis_endpoint}" },
-        { "name" : "REDIS_PORT", "value" : "${var.redis_port}" },
+        { "name" : "REDIS_HOST", "value" : "${var.primary_elasticache_endpoint}" },
+        { "name" : "REDIS_PORT", "value" : "${var.elasticache_port}" },
         { "name" : "REDIS_CONNECT_TIMEOUT", "value" : "5000" },
-        { "name" : "REDIS_PASSWORD", "value" : "${var.redis_auth_token}" },
+        { "name" : "REDIS_PASSWORD", "value" : "${var.elasticache_auth_token}" },
         { "name" : "REDIS_TLS", "value" : "1" },
       ],
       "secrets" : [
@@ -77,6 +77,7 @@ resource "aws_cloudwatch_log_group" "ecs" {
 }
 
 resource "aws_ecs_service" "main" {
+  count                              = var.deploy_service ? 1 : 0
   name                               = "ecs-service-${var.workload}"
   cluster                            = aws_ecs_cluster.main.id
   task_definition                    = aws_ecs_task_definition.main.arn
@@ -157,8 +158,8 @@ resource "aws_security_group_rule" "egress_https" {
 resource "aws_security_group_rule" "egress_redis" {
   description       = "Allows REDIS egress"
   type              = "egress"
-  from_port         = var.redis_port
-  to_port           = var.redis_port
+  from_port         = var.elasticache_port
+  to_port           = var.elasticache_port
   protocol          = "tcp"
   cidr_blocks       = [data.aws_vpc.selected.cidr_block]
   ipv6_cidr_blocks  = []
