@@ -105,7 +105,7 @@ sudo su -
 Check your access to the private key passphrase secret:
 
 ```sh
-aws secretsmanager describe-secret --secret-id "supercache/private-key-password/xxxxx"
+aws secretsmanager describe-secret --secret-id "demo/private-key-password/xxxxx"
 ```
 
 Define a secure passphrase:
@@ -114,15 +114,14 @@ Define a secure passphrase:
 touch passphrase.txt
 chmod 600 passphrase.txt
 pwgen -N 1 --secure 15 >> passphrase.txt
-#privateKeyPass=$(pwgen -N 1 --secure 15)
 ```
 
 Set the secret value with a secure passphrase:
 
 ```sh
 aws secretsmanager put-secret-value \
-  --secret-id "supercache/private-key-password/xxxxx" \
-  --secret-string file:passphrase.txt # $privateKeyPass
+  --secret-id "demo/private-key-password/xxxxx" \
+  --secret-string file:passphrase.txt
 ```
 
 Shred and delete the file:
@@ -138,8 +137,8 @@ Generate an RSA key pair:
 
 ```sh
 # genrsa is deprecated and has been replaced by genpkey https://docs.openssl.org/master/man1/openssl-genpkey/
-openssl genpkey -aes-256-cbc -algorithm RSA -out private-key.pem -pass pass:$privateKeyPass -pkeyopt rsa_keygen_bits:4096
-openssl rsa -in private-key.pem -pubout -passin pass:$privateKeyPass -out public-key.pem
+openssl genpkey -aes-256-cbc -algorithm RSA -out private-key.pem -pass pass:passphrase.txt -pkeyopt rsa_keygen_bits:4096
+openssl rsa -in private-key.pem -pubout -passin pass:passphrase.txt -out public-key.pem
 ```
 
 Some services may prefer to use DER format encoding:
@@ -152,14 +151,14 @@ openssl rsa -pubin -inform PEM -in public-key.pem -outform DER -out public-key.d
 Check the read access to the secret:
 
 ```sh
-aws secretsmanager describe-secret --secret-id "supercache/private-key/xxxxx"
+aws secretsmanager describe-secret --secret-id "demo/private-key/xxxxx"
 ```
 
 Set the secret value with the private key material:
 
 ```sh
 aws secretsmanager put-secret-value \
-  --secret-id "supercache/private-key/xxxxx" \
+  --secret-id "demo/private-key/xxxxx" \
   --secret-string file://private-key.pem
 ```
 

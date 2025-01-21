@@ -13,3 +13,7 @@ output "private_key_password_secret_name" {
 output "instance_id" {
   value = module.ec2_instance.instance_id
 }
+
+output "ssm_start_session" {
+  value = "aws ssm start-session --target ${module.ec2_instance.instance_id}"
+}
