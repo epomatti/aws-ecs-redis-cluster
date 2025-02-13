@@ -121,7 +121,7 @@ Set the secret value with a secure passphrase:
 ```sh
 aws secretsmanager put-secret-value \
   --secret-id "demo/private-key-password/xxxxx" \
-  --secret-string file:passphrase.txt
+  --secret-string file://passphrase.txt
 ```
 
 Shred and delete the file:
