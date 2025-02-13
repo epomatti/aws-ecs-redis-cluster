@@ -12,6 +12,8 @@
         "Fargate",
         "genpkey",
         "noninteractive",
+        "noout",
+        "openssl",
         "outform",
         "passin",
         "pkeyopt",

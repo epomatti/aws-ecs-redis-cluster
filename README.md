@@ -137,8 +137,14 @@ Generate an RSA key pair:
 
 ```sh
 # genrsa is deprecated and has been replaced by genpkey https://docs.openssl.org/master/man1/openssl-genpkey/
-openssl genpkey -aes-256-cbc -algorithm RSA -out private-key.pem -pass pass:passphrase.txt -pkeyopt rsa_keygen_bits:4096
-openssl rsa -in private-key.pem -pubout -passin pass:passphrase.txt -out public-key.pem
+openssl genpkey -aes-256-cbc -algorithm RSA -out private-key.pem -pass file:passphrase.txt -pkeyopt rsa_keygen_bits:4096
+openssl rsa -in private-key.pem -pubout -passin file:passphrase.txt -out public-key.pem
+```
+
+Test the private key with the passphrase:
+
+```sh
+openssl rsa -noout -in private-key.pem
 ```
 
 Some services may prefer to use DER format encoding:
