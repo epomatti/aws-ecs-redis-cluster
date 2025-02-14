@@ -147,6 +147,13 @@ Test the private key with the passphrase:
 openssl rsa -noout -in private-key.pem
 ```
 
+To get the secret value from Secrets Manager for testing:
+
+```sh
+aws secretsmanager get-secret-value \
+    --secret-id "demo/private-key/xxxxx" --query SecretString --output text
+```
+
 Some services may prefer to use DER format encoding:
 
 ```sh
