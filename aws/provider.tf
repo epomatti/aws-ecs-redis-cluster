@@ -6,4 +6,8 @@ provider "aws" {
       Project = "ECS ElastiCache Sandbox"
     }
   }
+
+  ignore_tags {
+    key_prefixes = ["QSConfigId"]
+  }
 }
