@@ -30,10 +30,10 @@ The Redis instance is configured with encryption in transit and password authent
 
 ## Localhost
 
-In order to test the application locally, run a Redis container:
+In order to test the application locally, run a Valkey container:
 
 ```sh
-docker run -d --name redis-local -p 6379:6379 redis
+docker run -d --name valkey-local -p 6379:6379 valkey/valkey
 ```
 
 In the application directory, create the `.env` file for local development:
