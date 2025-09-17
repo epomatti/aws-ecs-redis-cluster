@@ -9,7 +9,4 @@ apt update && apt upgrade -y
 apt install -y zip unzip openssl pwgen
 
 # Install the AWS CLI
-architecture="aarch64"
-curl "https://awscli.amazonaws.com/awscli-exe-linux-$architecture.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
+snap install aws-cli --classic
