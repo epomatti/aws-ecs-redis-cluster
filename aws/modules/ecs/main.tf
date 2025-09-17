@@ -80,6 +80,7 @@ resource "aws_ecs_service" "main" {
   count                              = var.deploy_service ? 1 : 0
   name                               = "ecs-service-${var.workload}"
   cluster                            = aws_ecs_cluster.main.id
+  platform_version                   = "LATEST"
   task_definition                    = aws_ecs_task_definition.main.arn
   scheduling_strategy                = "REPLICA"
   desired_count                      = 1
